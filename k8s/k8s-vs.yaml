@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  annotations:
+  name: backend-node-express-develop
+  namespace: default
+spec:
+  gateways:
+  - op-gw-https
+  hosts:
+  - backend-node-express-develop.outpathprod.com
+  - backend-node-express-develop
+  http:
+  - route:
+    - destination:
+        host: backend-node-express-develop
+        port:
+          number: 666

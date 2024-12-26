@@ -1,0 +1,125 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:  
+  labels:
+    app: backend-node-express-develop    
+  name: backend-node-express-develop
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: backend-node-express-develop
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: backend-node-express-develop
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - preference:
+              matchExpressions:
+              - key: node-class
+                operator: In
+                values:
+                - workloads
+            weight: 1
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - backend-node-express-develop
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+      containers:
+      - image: 955487219011.dkr.ecr.ap-south-1.amazonaws.com/backend-node-express-develop:e0c59df45b16a32a87f647af24723bf6765149cf
+        imagePullPolicy: IfNotPresent
+        name: backend-node-express-develop
+        ports:
+        - containerPort: 666
+          name: http
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "3"
+            memory: "3Gi"
+          requests:
+            cpu: "1.5"
+            memory: "2Gi"
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - effect: NoSchedule
+        key: node-class
+        operator: Equal
+        value: workloads
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  name: backend-node-express-develop
+  namespace: default
+spec:
+  ports:
+  - name: http
+    port: 666
+    protocol: TCP
+    targetPort: 666
+  selector:
+    app: backend-node-express-develop
+  sessionAffinity: None
+  type: ClusterIP
+
+---
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  annotations:
+  name: backend-node-express-develop
+  namespace: default
+spec:
+  gateways:
+  - op-gw-https
+  hosts:
+  - backend-node-express-develop.outpathprod.com
+  - backend-node-express-develop
+  http:
+  - route:
+    - destination:
+        host: backend-node-express-develop
+        port:
+          number: 666
+
+---
+
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+  metadata:
+  name: backend-node-express-develop-pdb
+namespace: default
+spec:
+  minAvailable: 2
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+    app: backend-node-express-develop
