@@ -11,7 +11,7 @@ on:
 
 jobs:
   build-for-develop-branch:
-    name: Build, Test, Push to ECR, and Trivy Scan
+    name: Build, Test, Push to ECR, and Trivy Scan 
     runs-on: ubuntu-latest
     env:
       # BRANCH_NAME: ${{ github.head_ref || github.ref_name }}     
