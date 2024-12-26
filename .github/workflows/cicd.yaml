@@ -19,7 +19,6 @@ jobs:
       ECR_REGION: ap-south-1
       ECR_REPOSITORY: ${{ github.event.repository.name }}-${{ github.head_ref || github.ref_name }}
       ASM_NAME: ${{ github.event.repository.name }}-${{ github.head_ref || github.ref_name }}
-      ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       ECR_REPO_NAME: ${{ github.event.repository.name }}-${{ github.head_ref || github.ref_name }}
       IMAGE_TAG: ${{ github.sha }}    
 
@@ -103,6 +102,8 @@ jobs:
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
           docker build -t $ECR_REGISTRY/$ECR_REPO_NAME:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPO_NAME:$IMAGE_TAG
