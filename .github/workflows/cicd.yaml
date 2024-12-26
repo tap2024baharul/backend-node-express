@@ -130,7 +130,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
           docker buildx build \
-          --platform linux/arm64,linux/amd64 \
+          --platform linux/arm64 \
           -t $ECR_REGISTRY/$ECR_REPO_NAME:$IMAGE_TAG \
           --push .
           # docker build  -t $ECR_REGISTRY/$ECR_REPO_NAME:$IMAGE_TAG .
