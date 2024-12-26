@@ -69,15 +69,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_PROD }}
           aws-region: ap-south-1
 
-    - name: Get AWS secrets From AWS Secret Manager
-      env:
-          ASM_NAME: ${{ github.event.repository.name }}-${{ github.head_ref || github.ref_name }}
-      run: |
-          export SECRET_JSON=$(aws secretsmanager get-secret-value --region ap-south-1 --secret-id $ASM_NAME --query SecretString --output text)
-          echo "NEXT_PUBLIC_MAGENTO_BACKEND_URL=$(echo $SECRET_JSON | jq -r .NEXT_PUBLIC_MAGENTO_BACKEND_URL)" >> .env
-          echo "NEXT_PUBLIC_FE_URL=$(echo $SECRET_JSON | jq -r .NEXT_PUBLIC_FE_URL)" >> .env                                
-          echo "NEXT_PUBLIC_STRAPI_URL=$(echo $SECRET_JSON | jq -r .NEXT_PUBLIC_STRAPI_URL)" >> .env
-          echo "NEXT_PUBLIC_DY_API_KEY=$(echo $SECRET_JSON | jq -r .NEXT_PUBLIC_DY_API_KEY)" >> .env          
+    # - name: Get AWS secrets From AWS Secret Manager
+    #   env:
+    #       ASM_NAME: ${{ github.event.repository.name }}-${{ github.head_ref || github.ref_name }}
+    #   run: |
+    #       export SECRET_JSON=$(aws secretsmanager get-secret-value --region ap-south-1 --secret-id $ASM_NAME --query SecretString --output text)
+    #       echo "NEXT_PUBLIC_MAGENTO_BACKEND_URL=$(echo $SECRET_JSON | jq -r .NEXT_PUBLIC_MAGENTO_BACKEND_URL)" >> .env
+    #       echo "NEXT_PUBLIC_FE_URL=$(echo $SECRET_JSON | jq -r .NEXT_PUBLIC_FE_URL)" >> .env                                
+    #       echo "NEXT_PUBLIC_STRAPI_URL=$(echo $SECRET_JSON | jq -r .NEXT_PUBLIC_STRAPI_URL)" >> .env
+    #       echo "NEXT_PUBLIC_DY_API_KEY=$(echo $SECRET_JSON | jq -r .NEXT_PUBLIC_DY_API_KEY)" >> .env          
 
     # Install dependencies and build
     - name: Install Dependencies
