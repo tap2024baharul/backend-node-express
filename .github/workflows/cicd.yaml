@@ -15,6 +15,7 @@ jobs:
     name: Build, Test, Push to ECR, and Trivy Scan
     runs-on: ubuntu-latest
     env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}     
       ECR_REGION: ap-south-1
       ECR_REPOSITORY: ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}
       ASM_NAME: ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}
@@ -23,6 +24,11 @@ jobs:
       IMAGE_TAG: ${{ github.sha }}    
 
     steps:
+    - name: Extract branch name
+      id: extract_branch
+      run: |
+          echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+              
     # Checkout the repository
     - name: Checkout Code
       uses: actions/checkout@v3
@@ -63,11 +69,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_PROD }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_PROD }}
           aws-region: ap-south-1
-
-    - name: Extract branch name
-      id: extract_branch
-      run: |
-          echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
 
     - name: Get AWS secrets From AWS Secret Manager
       env:
