@@ -3,15 +3,14 @@ name: CI/CD for TypeScript App
 on:
   push:
     branches:
-      - main
-      - master
+      - develop
   pull_request:
       types: [closed]
-      branches: [master,main]
+      branches: [develop]
 
 
 jobs:
-  build:
+  build-for-develop-branch:
     name: Build, Test, Push to ECR, and Trivy Scan
     runs-on: ubuntu-latest
     env:
