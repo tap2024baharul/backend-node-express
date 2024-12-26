@@ -1,7 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:  
   labels:
     app: backend-node-express-develop    
   name: backend-node-express-develop
@@ -17,7 +16,6 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: backend-node-express-develop
     spec:
@@ -43,7 +41,7 @@ spec:
               topologyKey: kubernetes.io/hostname
             weight: 100
       containers:
-      - image: 955487219011.dkr.ecr.ap-south-1.amazonaws.com/backend-node-express-develop:e0c59df45b16a32a87f647af24723bf6765149cf
+      - image: 955487219011.dkr.ecr.ap-south-1.amazonaws.com/backend-node-express-develop:20bf5364d98f55b09629eacb0357be84376f6ae8
         imagePullPolicy: IfNotPresent
         name: backend-node-express-develop
         ports:
@@ -75,7 +73,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
   name: backend-node-express-develop
   namespace: default
 spec:
@@ -99,9 +96,9 @@ metadata:
   namespace: default
 spec:
   gateways:
-  - op-gw-https
+  - tap-http-gw
   hosts:
-  - backend-node-express-develop.outpathprod.com
+  - backend-node-express-develop.tapperstaging.com
   - backend-node-express-develop
   http:
   - route:
@@ -110,16 +107,15 @@ spec:
         port:
           number: 666
 
----
+# ---
 
-apiVersion: policy/v1
-kind: PodDisruptionBudget
-  metadata:
-  name: backend-node-express-develop-pdb
-namespace: default
-spec:
-  minAvailable: 2
-  maxUnavailable: 1
-  selector:
-    matchLabels:
-    app: backend-node-express-develop
+# apiVersion: policy/v1
+# kind: PodDisruptionBudget
+# metadata:
+#   name: backend-node-express-develop-pdb
+# namespace: default
+# spec:
+#   maxUnavailable: 1
+#   selector:
+#     matchLabels:
+#     app: backend-node-express-develop
