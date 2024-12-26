@@ -1,5 +1,5 @@
 # Use AWS Public ECR Node.js base image
-FROM public.ecr.aws/docker/library/node:18-alpine3.18
+FROM node:18-alpine
 
 # Set working directory
 WORKDIR /app
