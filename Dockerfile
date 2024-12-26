@@ -4,7 +4,7 @@ FROM --platform=linux/arm64 public.ecr.aws/docker/library/node:18-alpine as runt
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package.json and package-lock.json 
 COPY package*.json ./
 
 # Install all dependencies (including devDependencies for development mode)
