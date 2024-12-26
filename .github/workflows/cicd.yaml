@@ -21,6 +21,7 @@ jobs:
       ASM_NAME: ${{ github.event.repository.name }}-${{ github.head_ref || github.ref_name }}
       ECR_REPO_NAME: ${{ github.event.repository.name }}-${{ github.head_ref || github.ref_name }}
       IMAGE_TAG: ${{ github.sha }}    
+    environment: tapper
 
     steps:
     - name: Extract branch name
