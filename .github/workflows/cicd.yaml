@@ -15,12 +15,12 @@ jobs:
     name: Build, Test, Push to ECR, and Trivy Scan
     runs-on: ubuntu-latest
     env:
-      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}     
+      # BRANCH_NAME: ${{ github.head_ref || github.ref_name }}     
       ECR_REGION: ap-south-1
-      ECR_REPOSITORY: ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}
-      ASM_NAME: ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}
+      ECR_REPOSITORY: ${{ github.event.repository.name }}-${{ github.head_ref || github.ref_name }}
+      ASM_NAME: ${{ github.event.repository.name }}-${{ github.head_ref || github.ref_name }}
       ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      ECR_REPO_NAME: ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}
+      ECR_REPO_NAME: ${{ github.event.repository.name }}-${{ github.head_ref || github.ref_name }}
       IMAGE_TAG: ${{ github.sha }}    
 
     steps:
@@ -72,7 +72,7 @@ jobs:
 
     - name: Get AWS secrets From AWS Secret Manager
       env:
-          ASM_NAME: ${{ github.event.repository.name }}-${{ env.BRANCH_NAME }}
+          ASM_NAME: ${{ github.event.repository.name }}-${{ github.head_ref || github.ref_name }}
       run: |
           export SECRET_JSON=$(aws secretsmanager get-secret-value --region ap-south-1 --secret-id $ASM_NAME --query SecretString --output text)
           echo "NEXT_PUBLIC_MAGENTO_BACKEND_URL=$(echo $SECRET_JSON | jq -r .NEXT_PUBLIC_MAGENTO_BACKEND_URL)" >> .env
