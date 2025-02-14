@@ -1,10 +1,14 @@
 // ✅ Move dd-trace to the first line!
 const tracer = require('dd-trace').init({
-    service: 'ninja-nodejs-service',
-    env: 'develop',
+    service: 'my-nodejs-service',
+    env: 'production',
     logInjection: true,
     analytics: true,
 });
+
+// ✅ Enable tracing for Mongoose and HTTP requests
+tracer.use('mongoose', { service: 'my-nodejs-mongo' });
+tracer.use('http', { service: 'my-nodejs-http' });
 
 import mongoose from 'mongoose';
 import config from '~/config/config';
@@ -12,9 +16,6 @@ import app from './app';
 import initialData from './config/initialData';
 import logger from './config/logger';
 
-// ✅ Enable tracing for Mongoose and HTTP requests
-tracer.use('mongoose', { service: 'ninja-nodejs-mongo' });
-tracer.use('http', { service: 'ninja-nodejs-http' });
 
 let server;
 

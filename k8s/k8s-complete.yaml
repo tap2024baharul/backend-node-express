@@ -50,7 +50,7 @@ spec:
               topologyKey: kubernetes.io/hostname
             weight: 100
       containers:
-      - image: 955487219011.dkr.ecr.ap-south-1.amazonaws.com/backend-node-express-develop:7861dbc2c9fdfbd7a3443be6132156bab7d38084
+      - image: 955487219011.dkr.ecr.ap-south-1.amazonaws.com/backend-node-express-develop:770844c20cfb48e0c1c8a4a33b65dddf819930ff
         imagePullPolicy: IfNotPresent
         name: ninja-nodejs-service
         ports:
