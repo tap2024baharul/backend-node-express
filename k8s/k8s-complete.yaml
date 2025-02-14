@@ -41,11 +41,11 @@ spec:
               topologyKey: kubernetes.io/hostname
             weight: 100
       containers:
-      - image: 955487219011.dkr.ecr.ap-south-1.amazonaws.com/backend-node-express-develop:20bf5364d98f55b09629eacb0357be84376f6ae8
+      - image: 955487219011.dkr.ecr.ap-south-1.amazonaws.com/backend-node-express-develop:d221e208f8da5f3b30c15bd91751eaae7d8dcfe2
         imagePullPolicy: IfNotPresent
         name: backend-node-express-develop
         ports:
-        - containerPort: 666
+        - containerPort: 6666
           name: http
           protocol: TCP
         resources:
@@ -78,9 +78,9 @@ metadata:
 spec:
   ports:
   - name: http
-    port: 666
+    port: 6666
     protocol: TCP
-    targetPort: 666
+    targetPort: 6666
   selector:
     app: backend-node-express-develop
   sessionAffinity: None
@@ -105,7 +105,7 @@ spec:
     - destination:
         host: backend-node-express-develop
         port:
-          number: 666
+          number: 6666
 
 # ---
 
