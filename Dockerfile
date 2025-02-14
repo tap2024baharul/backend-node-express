@@ -1,7 +1,7 @@
 # Use AWS Public ECR Node.js base image
 FROM node:18-alpine
 
-# Set working directory
+# Set working directory 
 WORKDIR /app
 
 # Copy package.json and package-lock.json 
