@@ -57,7 +57,7 @@ spec:
         - containerPort: 6666
           name: http
           protocol: TCP
-        resources:
+        resources: 
           limits:
             cpu: "3"
             memory: "3Gi"
