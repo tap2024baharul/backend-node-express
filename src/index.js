@@ -6,9 +6,9 @@ const tracer = require('dd-trace').init({
     analytics: true,
 });
 
-// ✅ Enable tracing for Mongoose and HTTP requests
-tracer.use('mongoose', { service: 'my-nodejs-mongo' });
-tracer.use('http', { service: 'my-nodejs-http' });
+// // ✅ Enable tracing for Mongoose and HTTP requests
+// tracer.use('mongoose', { service: 'my-nodejs-mongo' });
+// tracer.use('http', { service: 'my-nodejs-http' });
 
 import mongoose from 'mongoose';
 import config from '~/config/config';
